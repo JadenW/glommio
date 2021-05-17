@@ -146,9 +146,14 @@ impl Directory {
         Ok(())
     }
 
-    /// Closes this DMA file.
+    /// Closes this directory
     pub async fn close(self) -> Result<()> {
         self.file.close().await
+    }
+
+    /// rename this directory
+    pub async fn rename<P: AsRef<Path>>(&mut self, new_path: P) -> Result<()> {
+        self.file.rename(new_path).await.map_err(Into::into)
     }
 
     /// Returns an `Option` containing the path associated with this open
